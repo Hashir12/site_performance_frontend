@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.all-center{
+    @apply flex text-center items-center justify-center
+}

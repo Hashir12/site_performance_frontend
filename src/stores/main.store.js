@@ -1,14 +1,22 @@
 import {defineStore} from 'pinia'
 
 export const useMainStore = defineStore('main', {
-    state: () => ({}),
+    state: () => ({
+        loader: false,
+        error: null,
+        performance: null,
+        flag: true
+    }),
+
     getters: {},
     actions: {
-        checkPerformance(form) {
+        async checkPerformance(form) {
             if (form) {
+                this.loader = true;
+                this.error = null;
                 const token = localStorage.getItem('token')
 
-                fetch('apki-api', {
+                const response = await fetch('http://127.0.0.1:8000/api/track-performance', {
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + token,
@@ -17,6 +25,16 @@ export const useMainStore = defineStore('main', {
                     },
                     body: JSON.stringify(form)
                 })
+                const data = await response.json();
+
+                if (!data.data) {
+                    this.loader = false
+                    throw new Error('Authentication failed.');
+                } else {
+                    this.loader = false
+                    this.flag = false
+                    this.performance = data.data
+                }
             }
         }
     },

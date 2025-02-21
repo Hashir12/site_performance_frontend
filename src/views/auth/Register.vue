@@ -4,6 +4,7 @@ import UInput from "@/components/UInput.vue";
 import GoogleIcon from "u-vue/icons/Google.vue";
 import { useAuthStore } from '@/stores/auth.store';
 import ULoading from 'u-vue/components/ULoading.vue';
+import {useRouter} from 'vue-router';
 
 const form = ref({
   name: "",
@@ -12,19 +13,10 @@ const form = ref({
 });
 
 const auth = useAuthStore();
-
+const router = useRouter();
 
 const registerUser = async () => {
-  try {
-    await auth.authenticate(form.value, 'register');
-  } catch (error) {
-    console.error("Registration failed:", error);
-  }
-};
-
-
-const continueWithGoogle = () => {
-  window.location.href = "http://127.0.0.1:8000/api/google-auth";
+  await auth.authenticate(form.value, 'register').then(() => router.replace('/check-performance'));
 };
 
 </script>

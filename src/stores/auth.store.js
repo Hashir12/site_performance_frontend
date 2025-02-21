@@ -1,5 +1,4 @@
 import {defineStore} from 'pinia';
-import {useRouter} from 'vue-router';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -10,7 +9,6 @@ export const useAuthStore = defineStore('auth', {
         async authenticate(form, type) {
             if (!form || !type) return;
 
-            const router = useRouter();
             this.loader = true;
             this.error = null;
 
@@ -34,8 +32,6 @@ export const useAuthStore = defineStore('auth', {
 
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
-
-                await router.push('/check-performance');
 
             } catch (error) {
                 this.error = error.message;

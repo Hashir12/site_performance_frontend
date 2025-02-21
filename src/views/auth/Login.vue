@@ -4,6 +4,7 @@ import UInput from "@/components/UInput.vue";
 import GoogleIcon from "u-vue/icons/Google.vue";
 import {useAuthStore} from '@/stores/auth.store';
 import ULoading from 'u-vue/components/ULoading.vue'
+import {useRouter} from 'vue-router';
 
 const form = ref({
   email: "",
@@ -11,14 +12,16 @@ const form = ref({
 });
 
 const auth = useAuthStore()
+const router = useRouter();
+
+const loginUser = async () => {
+  await auth.authenticate(form.value, 'login').then(() => router.replace('/check-performance'));
+};
 </script>
 
 <template>
   <div class="flex min-h-screen items-center justify-center bg-gray-100 sm:p-6 p-2">
-    <form
-        @submit.prevent="auth.authenticate(form, 'login')"
-        class="w-full max-w-md bg-white shadow-lg rounded-lg p-6 border border-gray-300"
-    >
+    <form @submit.prevent="loginUser" class="w-full max-w-md bg-white shadow-lg rounded-lg p-6 border border-gray-300">
       <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Login</h2>
 
       <UInput v-model="form.email" label="Email" inputType="email" placeholder="Enter your email"/>
