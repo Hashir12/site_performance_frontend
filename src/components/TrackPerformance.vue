@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import UInput from "@/components/UInput.vue";
 import CellPhone from "u-vue/icons/CellPhone.vue";
 import {useMainStore} from "@/stores/main.store.js";
@@ -12,6 +12,9 @@ const form = ref({
 
 const mainStore = useMainStore()
 
+onMounted(async () => {
+  await mainStore.handleGoogleCallback();
+});
 </script>
 
 <template>

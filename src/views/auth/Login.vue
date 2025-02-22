@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {ref} from "vue";
+import {ref, onMounted} from "vue";
 import UInput from "@/components/UInput.vue";
 import GoogleIcon from "u-vue/icons/Google.vue";
 import {useAuthStore} from '@/stores/auth.store';
@@ -17,6 +17,7 @@ const router = useRouter();
 const loginUser = async () => {
   await auth.authenticate(form.value, 'login').then(() => router.replace('/check-performance'));
 };
+
 </script>
 
 <template>
@@ -47,7 +48,7 @@ const loginUser = async () => {
 
       <button
           type="button"
-          @click="continueWithGoogle"
+          @click="auth.googleLogin"
           class="w-full flex items-center justify-center bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 rounded-lg font-semibold transition-all duration-300 shadow-sm"
       >
         <GoogleIcon class="w-5 h-5 mr-2"/>

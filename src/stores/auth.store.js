@@ -4,6 +4,7 @@ export const useAuthStore = defineStore('auth', {
     state: () => ({
         loader: false,
         error: null,
+
     }),
     actions: {
         async authenticate(form, type) {
@@ -32,12 +33,25 @@ export const useAuthStore = defineStore('auth', {
 
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
-
             } catch (error) {
                 this.error = error.message;
             } finally {
                 this.loader = false;
             }
-        }
+        },
+
+        async googleLogin() {
+            try {
+                const response = await fetch("http://127.0.0.1:8000/api/google-auth");
+                const data = await response.json();
+
+                if (!data.url) {
+                    throw new Error("Invalid response from server.");
+                }
+                window.location.href = data.url;
+            } catch (error) {
+                console.error("OAuth Error:", error.message);
+            }
+        },
     }
 });

@@ -1,7 +1,8 @@
 <script setup>
-import {useMainStore} from "@/stores/main.store.js";
+import { useMainStore } from "@/stores/main.store.js";
+import { onMounted } from "vue";
 
-const mainStore = useMainStore()
+const mainStore = useMainStore();
 </script>
 
 <template>
